@@ -129,9 +129,12 @@
   <ItemGroup>
     <ClCompile Include="LAB_04.cpp" />
     <ClCompile Include="LinkedList.cpp" />
+    <ClCompile Include="SortedLinkedList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="SortedLinkedList.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

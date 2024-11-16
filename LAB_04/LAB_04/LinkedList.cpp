@@ -17,8 +17,8 @@ Node* LinkedList::Append(int number)
 	Node* node = new Node(number);
 	if (head == nullptr)
 	{
-		tail = node;
 		head = node;
+		tail = node;
 	}
 	else
 	{
@@ -35,8 +35,8 @@ Node* LinkedList::Prepend(int number)
 	Node* node = new Node(number);
 	if (head == nullptr)
 	{
-		tail = node;
 		head = node;
+		tail = node;
 	}
 	else
 	{
@@ -62,7 +62,7 @@ Node* LinkedList::GetPrev(Node* element)
 
 int LinkedList::Retrive(Node* element)
 {
-	if (element)
+	if(element)
 		return element->val;
 }
 
@@ -78,15 +78,21 @@ Node* LinkedList::Find(int number)
 	return nullptr;
 }
 
-void LinkedList::Insert(Node* element, int number) // insert to element->prev
+void LinkedList::Insert(Node* element, int number)
 {
+	if (!element) return;  // Ensure element is valid
+
+	Node* node = new Node(number);
 	if (element == head)
+	{
 		Prepend(number);
+	}
 	else if (element == tail)
+	{
 		Append(number);
+	}
 	else
 	{
-		Node* node = new Node(number);
 		Node* prevElement = element->prev;
 		Node* nextElement = element->next;
 
@@ -102,11 +108,16 @@ void LinkedList::Delete(Node* element)
 {
 	if (!element) return;
 
-	if (element == head)
+	if (element == head && element == tail)
+	{
+		delete element;
+		head = nullptr;
+		tail = nullptr;
+	}
+	else if (element == head)
 	{
 		Node* headNext = head->next;
 		headNext->prev = nullptr;
-
 		delete head;
 		head = headNext;
 	}
@@ -131,15 +142,10 @@ void LinkedList::Delete(Node* element)
 
 void LinkedList::DeleteX(int number)
 {
-	Node* node = head;
-	while (node)
+	Node* node = Find(number);
+	if (node)
 	{
-		if (node->val == number)
-		{
-			Delete(node);
-			return;
-		}
-		node = node->next;
+		Delete(node);
 	}
 }
 
