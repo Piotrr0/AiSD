@@ -18,20 +18,24 @@ public:
     void Insert(int number);
     bool Empty();
     void Inorder();
-    void Delete(int number);
+    void Delete(Node* node);
     Node* Search(int number);
     Node* MinValueNode(Node* node);
     Node* MaxValueNode(Node* node);
-    Node* GetSuccessor(Node* node);
-    Node* GetPredecessor(Node* node);
+    Node* Successor(Node* node);
+    Node* Predecessor(Node* node);
+    int Size(Node* node);
+    int Hight(Node* node);
+    void Clear(Node* node);
 
 private:
-    Node* InsertHelper(int number, Node* node, Node* parent = nullptr);
-    void InorderHelper(Node* node);
-    Node* DeleteHelper(Node* node, int number);
-    Node* SearchHelper(Node* node, int number);
 
-    Node* LeftMost(Node* node);
+    Node* InsertHelper(int number, Node* node);
+    void InorderHelper(Node* node);
+    Node* SearchHelper(int number, Node* node);
+    int HightHelper(Node* node, int currHeight);
+    int SizeHelper(Node* node);
+
 
 private:
     Node* root = nullptr;

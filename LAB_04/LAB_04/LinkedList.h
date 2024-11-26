@@ -1,13 +1,5 @@
 #pragma once
-
-struct Node
-{
-	Node(int val) { this->val = val; }
-
-	int val;
-	Node* prev = nullptr;
-	Node* next = nullptr;
-};
+#include "Node.h"
 
 class LinkedList
 {
@@ -21,8 +13,10 @@ public:
 	Node* GetPrev(Node* element);
 	int Retrive(Node* element);
 	Node* Find(int number);
-	void Insert(int index, int number);
-	void Delete(Node* node);
+	void Insert(Node* element, int number);
+	void Delete(Node* element);
+	void DeleteX(int number);
+	void DeleteXAll(int number);
 	void Clear();
 
 	void PrintList();

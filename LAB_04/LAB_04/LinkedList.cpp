@@ -14,177 +14,174 @@ LinkedList::~LinkedList()
 
 Node* LinkedList::Append(int number)
 {
-	Node* newElement = new Node(number);
-	newElement->next = nullptr;
-
-	if (tail == nullptr)
+	Node* node = new Node(number);
+	if (head == nullptr)
 	{
-		head = newElement;
-		tail = newElement;
-		head->prev = nullptr;
+		head = node;
+		tail = node;
 	}
 	else
 	{
-		tail->next = newElement;
-		newElement->prev = tail;
-		tail = newElement;
+		tail->next = node;
+		node->prev = tail;
+		tail = node;
 	}
 	size++;
-	return newElement;
+	return node;
 }
 
 Node* LinkedList::Prepend(int number)
 {
-	Node* newElement = new Node(number);
-	newElement->prev = nullptr;
-
+	Node* node = new Node(number);
 	if (head == nullptr)
 	{
-		head = newElement;
-		tail = newElement;
-		newElement->next = nullptr;
+		head = node;
+		tail = node;
 	}
 	else
 	{
-		newElement->next = head;
-		head->prev = newElement;
-		head = newElement;
+		node->next = head;
+		head->prev = node;
+		head = node;
 	}
 	size++;
-	return newElement;
+	return node;
 }
 
 Node* LinkedList::GetNext(Node* element)
 {
-	if (element)
-	{
+	if(element)
 		return element->next;
-	}
-	return nullptr;
 }
 
 Node* LinkedList::GetPrev(Node* element)
 {
-	if (element)
-	{
+	if(element)
 		return element->prev;
-	}
-	return nullptr;
 }
 
 int LinkedList::Retrive(Node* element)
 {
-	if (element)
-	{
+	if(element)
 		return element->val;
-	}
-	return INT_MIN;
 }
 
 Node* LinkedList::Find(int number)
 {
-	Node* curr = head;
-	while (curr->next)
+	Node* node = head;
+	while(node)
 	{
-		if (curr->val == number)
-			return curr;
-		curr = curr->next;
+		if (node->val == number)
+			return node;
+		node = node->next;
 	}
 	return nullptr;
 }
 
-void LinkedList::Insert(int index, int number)
+void LinkedList::Insert(Node* element, int number)
 {
-	if (index < 0 || index > size - 1) return;
+	if (!element) return;  // Ensure element is valid
 
-	Node* newElement = new Node(number);
-	if (size == 0)
-	{
-		head = tail = newElement;
-		size++;
-		return;
-	}
-	else if (index == 0)
+	Node* node = new Node(number);
+	if (element == head)
 	{
 		Prepend(number);
 	}
-	else if (index == size - 1)
+	else if (element == tail)
 	{
 		Append(number);
 	}
 	else
 	{
-		Node* curr = head;
-		for (int i = 0; i < index - 1; i++)
-		{
-			curr = curr->next;
-		}
+		Node* prevElement = element->prev;
+		Node* nextElement = element->next;
 
-		newElement->next = curr->next;
-		newElement->prev = curr;
-
-		curr->next->prev = newElement;
-		curr->next = newElement;
+		node->next = element;
+		node->prev = prevElement;
+		prevElement->next = node;
+		nextElement->prev = node;
 		size++;
 	}
 }
 
-void LinkedList::Delete(Node* node)
+void LinkedList::Delete(Node* element)
 {
-	if (!node || !head) return;
+	if (!element) return;
 
-	Node* curr = head;
-	int nodeIndex = 0;
-
-	while (curr && curr != node)
+	if (element == head && element == tail)
 	{
-		curr = curr->next;
-		nodeIndex++;
-	}
-
-	if (curr != node) return;
-
-	if (nodeIndex == 0)
-	{
-		head = curr->next;
-		head->prev = nullptr;
+		delete element;
+		head = nullptr;
 		tail = nullptr;
 	}
-	else if (nodeIndex == size - 1)
+	else if (element == head)
 	{
-		tail = curr->prev;
-		tail->next = nullptr;
+		Node* headNext = head->next;
+		headNext->prev = nullptr;
+		delete head;
+		head = headNext;
+	}
+	else if (element == tail)
+	{
+		Node* tailPrev = tail->prev;
+		tailPrev->next = nullptr;
+		delete tail;
+		tail = tailPrev;
 	}
 	else
 	{
-		Node* prev = curr->prev;
-		Node* next = curr->next;
+		Node* elementPrev = element->prev;
+		Node* elementNext = element->next;
 
-		prev->next = next;
-		next->prev = prev;
+		elementPrev->next = elementNext;
+		elementNext->prev = elementPrev;
+		delete element;
 	}
-
-	delete curr;
 	size--;
+}
+
+void LinkedList::DeleteX(int number)
+{
+	Node* node = Find(number);
+	if (node)
+	{
+		Delete(node);
+	}
+}
+
+void LinkedList::DeleteXAll(int number)
+{
+	Node* node = head;
+	while (node)
+	{
+		Node* nextNode = node->next;
+		if (node->val == number)
+		{
+			Delete(node);
+		}
+		node = nextNode;
+	}
 }
 
 void LinkedList::Clear()
 {
-	Node* temp = nullptr;
-	while (head != nullptr)
+	while (head)
 	{
-		temp = head;
-		head = head->next;
-		delete temp;
+		Node* headNext = head->next;
+		delete head;
+		head = headNext;
 	}
+	head = nullptr;
+	tail = nullptr;
+	size = 0;
 }
 
 void LinkedList::PrintList()
 {
 	Node* curr = head;
-	while (curr != nullptr) {
-		std::cout << curr->val << " ";
+	while (curr)
+	{
+		std::cout << curr->val << std::endl;
 		curr = curr->next;
 	}
-	std::cout << "\n";
 }

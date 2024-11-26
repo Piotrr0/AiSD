@@ -134,6 +134,7 @@
     <ClCompile Include="StackLL.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Node.h" />
     <ClInclude Include="QueueARR.h" />
     <ClInclude Include="QueueLL.h" />
     <ClInclude Include="StackARR.h" />

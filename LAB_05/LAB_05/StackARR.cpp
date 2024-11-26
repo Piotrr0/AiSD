@@ -32,7 +32,7 @@ void StackARR::Push(int number)
 
 int StackARR::Peek()
 {
-	if (items != nullptr && !isEmpty())
+	if (items != nullptr)
 	{
 		return items[top];
 	}
@@ -40,11 +40,10 @@ int StackARR::Peek()
 
 void StackARR::Pop()
 {
-	if (items != nullptr && !isEmpty())
-	{
-		items[top] = 0;
-		top--;
-	}
+	if (items == nullptr || isEmpty()) return;
+
+	items[top] = 0;
+	top--;
 }
 
 void StackARR::Clear()

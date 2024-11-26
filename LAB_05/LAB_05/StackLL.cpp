@@ -13,63 +13,40 @@ bool StackLL::Empty()
 
 void StackLL::Push(int number)
 {
-    Node* pushNode = new Node(number);
-    if (top == nullptr)
-    {
-        head = pushNode;
-    }
-    else
-    {
-        top->next = pushNode;
-    }
-    top = pushNode;
+    Node* node = new Node(number);
+    node->next = top;
+    top = node;
 }
 
 int StackLL::Peek()
 {
-    if (top != nullptr)
-        return top->val;
-    return -1;
+    return top->val;
 }
 
-void StackLL::Pop()
+void StackLL::Pop() 
 {
-    if (top == nullptr)
-        return;
-
-    if (head == top)
+    if (top != nullptr) 
     {
-        delete top;
-        head = nullptr;
-        top = nullptr;
-    }
-    else
-    {
-        Node* current = head;
-        while (current->next != top)
-            current = current->next;
-
-        delete top;
-        top = current;
-        top->next = nullptr;
+        Node* temp = top;
+        top = top->next;
+        delete temp;
     }
 }
 
 void StackLL::Clear()
 {
-    Node* temp = nullptr;
-    while (head != nullptr)
+    while (top != nullptr) 
     {
-        temp = head;
-        head = head->next;
+        Node* temp = top;
+        top = top->next;
         delete temp;
     }
 }
 
-void StackLL::PrintStack()
+void StackLL::PrintStack() 
 {
-    Node* curr = head;
-    while (curr != nullptr && curr->next != nullptr)
+    Node* curr = top;
+    while (curr != nullptr) 
     {
         std::cout << curr->val << " ";
         curr = curr->next;
