@@ -1,7 +1,6 @@
 #include "Heap.h"
-#include "Heap.h"
 #include <iostream>
-#include <stdexcept>
+#include <algorithm>
 
 Heap::Heap(int c) : capacity(c), size(0)
 {
@@ -13,98 +12,81 @@ Heap::Heap() : capacity(11), size(0)
 	heap = new Element[11];
 }
 
-bool Heap::Empty()
+Heap::~Heap()
+{
+	delete[] heap;
+}
+
+bool Heap::Empty() const
 {
 	return size == 0;
 }
 
-bool Heap::Full()
+bool Heap::Full() const
 {
 	return size == capacity;
 }
 
-int Heap::GetLeft(int i)
+int Heap::GetLeft(int i) const
 {
 	return 2 * i + 1;
 }
 
-int Heap::GetRight(int i)
+int Heap::GetRight(int i) const
 {
-	return 2 * i + 2;
+	return  2 * i + 2;
 }
 
-int Heap::GetParent(int i)
+int Heap::GetParent(int i) const
 {
 	if (i == 0) return -1;
 	return (i - 1) / 2;
 }
 
-int Heap::GetSize()
+int Heap::GetSize() const
 {
 	return size;
 }
 
-void Heap::SetSize(int s)
+Element Heap::GetValue(int i) const
 {
-	if (s > capacity)
-		return;
-	size = s;
-}
-
-Element Heap::GetValue(int i)
-{
-	if (i < 0 || i >= size)
-		return Element();
 	return heap[i];
 }
 
-void Heap::SetValue(int i, Element x)
+void Heap::SetValue(int i, const Element& x)
 {
 	heap[i] = x;
-	if (i >= size)
-	{
-		size = i + 1;
-	}
 }
 
 void Heap::BottomUp(int i)
 {
-	while (i > 0)
+	int index = i;
+
+	while (index > 0 && heap[index].p < heap[GetParent(index)].p)
 	{
-		int parent = (i - 1) / 2;
-		if (heap[i].p > heap[parent].p)
-		{
-			std::swap(heap[i], heap[parent]);
-			i = parent;
-		}
-		else
-		{
-			break;
-		}
+		std::swap(heap[index], heap[GetParent(index)]);
+		index = GetParent(index);
 	}
 }
 
 void Heap::TopDown(int i)
 {
-	while (GetLeft(i) < size)
+	int index = i;
+	while (GetLeft(index) < size)
 	{
-		int left = GetLeft(i);
-		int right = GetRight(i);
-		int largest = i;
+		int left = GetLeft(index);
+		int right = GetRight(index);
 
-		if (left < size && heap[left].p > heap[largest].p)
+		int smaller = left;
+		if (right < size && heap[right].p < heap[left].p)
 		{
-			largest = left;
-		}
-		if (right < size && heap[right].p > heap[largest].p)
-		{
-			largest = right;
+			smaller = right;
 		}
 
-		if (largest != i)
+		if (heap[index].p > heap[smaller].p)
 		{
-			std::swap(heap[i], heap[largest]);
-			i = largest;
+			std::swap(heap[index], heap[smaller]);
+			index = smaller;
 		}
 		else
 		{
@@ -113,36 +95,57 @@ void Heap::TopDown(int i)
 	}
 }
 
-void Heap::Insert(Element x)
+void Heap::Insert(const Element& x)
 {
-}
-
-void Heap::DeleteMaxPriority()
-{
-
-}
-
-Element Heap::MaxPriority()
-{
-	int max = -1;
-	int index = -1;
-	for (int i = 0; i < size; i++)
-	{
-		int prevMax = max;
-		max = std::max(max, heap[i].p);
-		if (max != prevMax)
-		{
-			index = i;
-		}
-	}
-	return heap[index];
+	if (Full()) return;
+	heap[size] = x;
+	BottomUp(size);
+	size++;
 }
 
 void Heap::Delete(int i)
 {
+	if (Empty()) return;
+	if (i < 0 || i > size) return;
+
+	heap[i] = heap[size - 1];
+	size--;
+
+	if (heap[i].p < heap[GetParent(i)].p)
+	{
+		BottomUp(i);
+	}
+	else
+	{
+		TopDown(i);
+	}
 }
 
-Heap::~Heap()
+void Heap::DeleteMaxPriority()
 {
-	delete[] heap;
+	if (Empty()) return;
+
+	int maxIndex = 0;
+	for (int i = 0; i < size; i++)
+	{
+		if (heap[i].p > heap[maxIndex].p)
+		{
+			maxIndex = i;
+		}
+	}
+
+	Delete(maxIndex);
+}
+
+Element Heap::MaxPriority() const
+{
+	int maxIndex = 0;
+	for (int i = 1; i < size; i++)
+	{
+		if (heap[i].p > heap[maxIndex].p)
+		{
+			maxIndex = i;
+		}
+	}
+	return heap[maxIndex];
 }
