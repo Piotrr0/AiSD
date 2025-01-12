@@ -4,7 +4,6 @@
 HashTable::HashTable(int capacity) : capacity(capacity), size(0)
 {
 	t = new std::string[capacity];
-	std::memset(t, 0, sizeof(std::string) * capacity);
 }
 
 HashTable::~HashTable()
@@ -41,24 +40,8 @@ int HashTable::HashFunction(std::string s)
 void HashTable::Insert(std::string s)
 {
 	if (Full()) return;
-
-	int index = HashFunction(s);
-	int originalIndex = index;
-
-	while (!t[index].empty() && t[index] != s)
-	{
-		index = (index + 1) % capacity;
-		if (index == originalIndex)
-		{
-			return;
-		}
-	}
-
-	if (t[index].empty())
-	{
-		t[index] = s;
-		size++;
-	}
+	int attempts = 0;
+	Insert(s, attempts); // Reuse the other Insert for consistency
 }
 
 void HashTable::Insert(std::string s, int& attempts)
@@ -67,14 +50,15 @@ void HashTable::Insert(std::string s, int& attempts)
 
 	int index = HashFunction(s);
 	int originalIndex = index;
+	attempts = 0;
 
 	while (!t[index].empty() && t[index] != s)
 	{
 		index = (index + 1) % capacity;
 		attempts++;
-
 		if (index == originalIndex)
 		{
+			std::cerr << "Hash table full while inserting " << s << std::endl;
 			return;
 		}
 	}
@@ -95,55 +79,44 @@ void HashTable::Del(std::string s)
 	{
 		if (t[index] == s)
 		{
-			t[index].clear();
+			t[index] = "";
 			size--;
 			return;
 		}
+
 		index = (index + 1) % capacity;
 		if (index == originalIndex)
 		{
-			break;
+			return;
 		}
 	}
 }
 
 std::string HashTable::Search(std::string s)
 {
-	int index = HashFunction(s);
-	int originalIndex = index;
-
-	while (!t[index].empty())
-	{
-		if (t[index] == s)
-		{
-			return t[index];
-		}
-		index = (index + 1) % capacity;
-		if (index == originalIndex)
-		{
-			break;
-		}
-	}
+	int attempts = 0;
+	return Search(s, attempts);
 }
 
 std::string HashTable::Search(std::string s, int& attempts)
 {
 	int index = HashFunction(s);
 	int originalIndex = index;
+	attempts = 0;
 
 	while (!t[index].empty())
 	{
+		attempts++;
 		if (t[index] == s)
 		{
 			return t[index];
 		}
+
 		index = (index + 1) % capacity;
-		attempts++;
 		if (index == originalIndex)
 		{
 			break;
 		}
 	}
-
-	attempts = -1;
+	return "";
 }
