@@ -129,9 +129,11 @@
   <ItemGroup>
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="LAB_10.cpp" />
+    <ClCompile Include="WeightedGraph.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Graph.h" />
+    <ClInclude Include="WeightedGraph.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

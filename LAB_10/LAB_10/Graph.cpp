@@ -45,37 +45,37 @@ Graph::~Graph()
 
 void Graph::bfs(int s)
 {
-	std::vector<bool> visited(n, false);
-	std::queue<int> q;
+    int* visited = new int[n]();
+    std::queue<int> queue;
 
-	visited[s] = true;
-	q.push(s);
+    queue.push(s);
+    visited[s] = true;
 
-	while (!q.empty()) 
-	{
-		int u = q.front();
-		q.pop();
+    while (!queue.empty())
+    {
+        int v = queue.front();
+        queue.pop();
 
-		std::cout << u << " ";
+        std::cout << v << " ";
 
-		for (int v = 0; v < n; v++) 
-		{
-			if (matrix[u][v] == 1 && !visited[v]) 
-			{
-				visited[v] = true;
-				q.push(v);
-			}
-		}
-	}
-	std::cout << std::endl;
+        for (int i = 0; i < n; i++)
+        {
+            if (!visited[i] && matrix[v][i])
+            {
+                queue.push(i);
+                visited[i] = true;
+            }
+        }
+    }
+
+    delete[] visited;
 }
+
 
 void Graph::dfs(int s)
 {
-	int* visited = new int[n];
-	memset(visited, 0, n * sizeof(int));
+	int* visited = new int[n]();
 	dfs_helper(s, visited);
-	std::cout << std::endl;
 	delete[] visited;
 }
 
@@ -83,12 +83,11 @@ void Graph::dfs_helper(int s, int* visited)
 {
 	visited[s] = 1;
 	std::cout << s << " ";
-
-	for (int v = 0; v < n; v++) 
+	for (int i = 0; i < n; i++)
 	{
-		if (matrix[s][v] == 1 && !visited[v]) 
+		if (!visited[i] && matrix[s][i] == 1)
 		{
-			dfs_helper(v, visited);
+			dfs_helper(i, visited);
 		}
 	}
 }
