@@ -4,7 +4,7 @@ This repository contains practical exercises, solutions, and implementations fro
 
 ## Repository Structure: What's in Each Lab?
 
-The repository is organized into directories, generally named `LabXX` (e.g., `Lab01`, `Lab02`), where `XX` is the lab number. While the exact content and number of labs might vary slightly from one university curriculum to another, you can expect the following themes and concepts within each:
+The repository is organized into directories, generally named `LabXX` (e.g., `Lab01`, `Lab02`), where `XX` is the lab number.
 
 *   ### `Lab01 - Introduction to Data Structures & Arrays`
     *   **Focus:** Basic programming concepts, introduction to abstract data types (ADTs), array manipulation, dynamic arrays.
@@ -16,11 +16,11 @@ The repository is organized into directories, generally named `LabXX` (e.g., `La
 
 *   ### `Lab03 - Stacks and Queues`
     *   **Focus:** Implementation of LIFO (Last-In, First-Out) and FIFO (First-In, First-Out) data structures.
-    *   **Concepts:** Array-based and linked-list-based implementations of Stacks and Queues, typical operations (push/pop, enqueue/dequeue), applications like expression evaluation or task scheduling.
+    *   **Concepts:** Array-based and linked-list-based implementations of Stacks and Queues, typical operations (push/pop, enqueue/dequeue).
 
 *   ### `Lab04 - Sorting Algorithms`
     *   **Focus:** Implementation and comparison of common sorting techniques.
-    *   **Concepts:** Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, Heap Sort. Analysis of their average and worst-case time complexities.
+    *   **Concepts:** Bubble Sort, Selection Sort, Insertion Sort, Merge Sort, Quick Sort, Heap Sort.
 
 *   ### `Lab05 - Searching Algorithms & Basic Trees`
     *   **Focus:** Efficient data retrieval and an introduction to tree structures.
@@ -28,11 +28,11 @@ The repository is organized into directories, generally named `LabXX` (e.g., `La
 
 *   ### `Lab06 - Balanced Trees (e.g., AVL, Red-Black)`
     *   **Focus:** Addressing the limitations of simple BSTs by implementing self-balancing trees.
-    *   **Concepts:** AVL Trees (rotations for balancing), Red-Black Trees (rules and re-coloring/rotations). *Note: This lab might be optional or covered as a project depending on the course.*
+    *   **Concepts:** AVL Trees (rotations for balancing), Red-Black Trees (rules and re-coloring/rotations).
 
 *   ### `Lab07 - Hash Tables`
     *   **Focus:** Implementing efficient key-value pair storage.
-    *   **Concepts:** Hash functions, collision resolution strategies (Chaining, Open Addressing - Linear Probing, Quadratic Probing, Double Hashing), performance analysis of hash tables.
+    *   **Concepts:** Hash functions, collision resolution strategies.
 
 *   ### `Lab08 - Heaps and Priority Queues`
     *   **Focus:** Building heap-based data structures.
